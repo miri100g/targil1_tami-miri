@@ -3,8 +3,21 @@ package primitives;
 
 public class Ray
 {
+	/**
+	 * The set of points on the straight that are on one side relative to a given point on the straight.
+	 *  Defined by vectorn and Point3D
+	 */
+	
 	Point3D p;
 	Vector dir;
+	/**
+	    * Ray constructor receiving point3D value and Vector
+	    *  check it is normalized"
+		 * 
+		 * @param _p Point3D p
+		 * @param v  Vector dir
+		 * 
+	   */
 	
 	public Ray(Point3D _p, Vector v)throws IllegalArgumentException 
 	{
@@ -13,15 +26,31 @@ public class Ray
 		p=new Point3D(_p);
 		dir=new Vector(v);	
 	}
+	/**
+	    * Ray  constructor receiving Ray value 
+		 * 
+		 * @param r
+		 * 
+	   */
 	public Ray(Ray r)
 	{
 		p=new Point3D(r.p);
 		dir=new Vector(r.dir);	
 	}
+	 /**
+     * Point3D value getter
+     * 
+     * @return Point3D p 
+     */
 	public Point3D getP()
 	{
 		return p;
 	}
+	 /**
+     * Vector value getter
+     * 
+     * @return Vector dir
+     */
 	public Vector getV()
 	{
 		return dir;
@@ -38,6 +67,7 @@ public class Ray
 	{
 	        return "point:"+p.toString()+"diraction vector:"+dir.toString();
 	}
+	
 	
 	
 

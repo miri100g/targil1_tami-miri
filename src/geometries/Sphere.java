@@ -5,9 +5,9 @@ import primitives.Vector;
 
 public class Sphere extends RadialGeometry
 {
-	Point3D _center;
+    Point3D _center;
 	
-	public Sphere(double r,Point3D _p)
+	public Sphere(double r,Point3D _p)//ctr
 	{
 		super(r);
 		// TODO Auto-generated constructor stub
@@ -18,7 +18,7 @@ public class Sphere extends RadialGeometry
 	{
 	        return null;
 	}
-	
+	//get point _center
 	public Point3D getC()
 	{
 		return _center;

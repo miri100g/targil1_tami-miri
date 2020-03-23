@@ -6,16 +6,19 @@ import primitives.Vector;
 public class Triangle extends Polygon
 {
 	Point3D x,y,z;
-	public Triangle(Point3D a,Point3D b,Point3D c)
+	public Triangle(Point3D a,Point3D b,Point3D c)//ctr
 	{
 		super(a,b,c);
 	}
+	//get point x
 	 public Point3D get_x(){
 	        return x;
 	    }
-	    public Point3D get_y() {
+	 //get point y
+	  public Point3D get_y() {
 	        return y;
 	    }
+	  //get point z
 	    public Point3D get_z() {
 	        return z;
 	    }
