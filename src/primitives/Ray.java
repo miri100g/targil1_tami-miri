@@ -21,7 +21,7 @@ public class Ray
 	
 	public Ray(Point3D _p, Vector v)throws IllegalArgumentException 
 	{
-		if(v.normalized()!=v)
+		if(v.length()!=1)
 			throw new IllegalArgumentException ("the vector is not normalized");
 		p=new Point3D(_p);
 		dir=new Vector(v);	

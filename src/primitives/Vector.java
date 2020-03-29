@@ -144,7 +144,7 @@ public class Vector
 	  */
 	 public Vector normalize()
 	 {
-		 this.p = scale(1/length()).p;
+		 this.p = scale(1/this.length()).p;
 		 return this;
 	 }
 	 /**
