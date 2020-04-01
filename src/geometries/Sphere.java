@@ -16,7 +16,8 @@ public class Sphere extends RadialGeometry
 
 	public Vector getNormal(Point3D _point) 
 	{
-	        return null;
+	    Vector normal=_point.subtract(_center);
+	    return normal.normalize();
 	}
 	//get point _center
 	public Point3D getC()

@@ -3,9 +3,9 @@ import static java.lang.System.out;
 import static primitives.Util.*;
 
 /**
+ *@author miri goldring 315121228
+ *@author tami spigelman 206833139
  * Test program for the 1st stage
- *
- * @author 
  */
 public final class Main {
 

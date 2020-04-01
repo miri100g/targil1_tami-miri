@@ -29,10 +29,6 @@ public class Triangle extends Polygon
 		        return "point1:"+x.toString()+"point2:"+y.toString()+"point3:"+z.toString();
 		} 
 	    
-	    @Override
-	    public Vector getNormal(Point3D _point) {
-	        return null;
-	    }
-	
+	  
 
 }

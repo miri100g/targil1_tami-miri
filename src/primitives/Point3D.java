@@ -45,7 +45,7 @@ public class Point3D
     /**
 	 * Point3D  constructor receiving a Point3D value
 	 * 
-	 * @param point
+	 * @param point x,y,z values
 	 * 
 	 */
     public Point3D(Point3D point)
@@ -101,7 +101,7 @@ public class Point3D
     }
     /**
      * @return distance between 2 points squared
-     * @param p second point in the plane
+     * @param _p second point in the plane
      */
     public double distanceSquared(Point3D _p)
     {
@@ -111,7 +111,7 @@ public class Point3D
     }
     /**
      * @return distance between 2 points
-     * @param p second point in the plane
+     * @param _p second point in the plane
      */
     public double distance(Point3D _p)
     {

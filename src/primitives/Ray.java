@@ -5,7 +5,7 @@ public class Ray
 {
 	/**
 	 * The set of points on the straight that are on one side relative to a given point on the straight.
-	 *  Defined by vectorn and Point3D
+	 *  Defined by Vector and Point3D
 	 */
 	
 	Point3D p;
@@ -29,7 +29,7 @@ public class Ray
 	/**
 	    * Ray  constructor receiving Ray value 
 		 * 
-		 * @param r
+		 * @param r Ray for constructor 
 		 * 
 	   */
 	public Ray(Ray r)

@@ -49,9 +49,7 @@ public class Vector
 	}
 	/**
 	    * Vector  constructor receiving a vector value 
-		 * 
-		 * @param v
-		 * 
+		 * @param v for v.p point value
 	   */
 	public Vector(Vector v)
 	{
@@ -105,7 +103,7 @@ public class Vector
 	}
 	/**
 	 * dot-product
-	 * @param vector 
+	 * @param vector dots values
 	 * @return scalar
 	 */
 	 public double dotProduct(Vector vector) 
@@ -114,7 +112,7 @@ public class Vector
 	 }
 	 /**
 	  * cross-product
-	  * @param v
+	  * @param v dots value
 	  * @return Vector that stands for the two existing vectors
 	  */
 	 public Vector crossProduct(Vector v)
@@ -129,7 +127,7 @@ public class Vector
 	  */
 	 public double lengthSquared()
 	 {
-		 return p.distanceSquared(Point3D.ZERO);
+		 return p.get_x().get()*p.get_x().get()+p.get_y().get()*p.get_y().get()+p.get_z().get()*p.get_z().get();
 	 }
 	 /**
 	  * @return vector length
@@ -144,7 +142,7 @@ public class Vector
 	  */
 	 public Vector normalize()
 	 {
-		 this.p = scale(1/this.length()).p;
+		 this.p = new Point3D(this.scale(1/this.length()).get());
 		 return this;
 	 }
 	 /**
@@ -153,6 +151,7 @@ public class Vector
 	  */
 	 public Vector normalized()
 	 {
-		 return (new Vector(this).normalize());
+		 Vector v=new Vector(this);
+		 return v.normalize();
 	 }
 }

@@ -10,15 +10,18 @@ public class Plane implements Geometry
 	Vector normal;
 	/**
 	 * Plane  constructor receiving 3 Point3D value
-	 * 
-	 * @param x  point p1
-	 * @params y,z vector normal
-	 * 
+     * @param p1  point p1
+	 * @param p2 vector normal
+	 * @param p3 vector normal
 	 */
-	public Plane(Point3D x,Point3D y, Point3D z)
+	public Plane(Point3D p1,Point3D p2, Point3D p3)
 	{
-		this.p1=x;//relation point of the plane
-        this.normal=null;
+		this.p1=p1;//relation point of the plane
+		Vector v1=p2.subtract(p1);
+		Vector v2=p3.subtract(p2);
+		normal=(v1.crossProduct(v2)).normalize();
+		
+        
 	}
 	/**
 	 * Plane  constructor receiving Point3D value and Vector
@@ -50,7 +53,7 @@ public class Plane implements Geometry
 	@Override
 	public Vector getNormal(Point3D p) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.normal;
 	}
 
 }

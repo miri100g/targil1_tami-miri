@@ -32,7 +32,7 @@ public class Polygon implements Geometry {
      *                                  <li>Three consequent vertices lay in the
      *                                  same line (180&#176; angle between two
      *                                  consequent edges)
-     *                                  <li>The polygon is concave (not convex></li>
+     *                                  <li>The polygon is concave (not convex</li>
      *                                  </ul>
      */
     public Polygon(Point3D... vertices) {

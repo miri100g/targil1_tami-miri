@@ -15,7 +15,7 @@ public class Cylinder extends Tube
 	}
 	public Vector getNormal(Point3D _point) 
 	{
-	        return null;
+	        return super.getNormal(_point);
 	}
 	
 	public double getH()
