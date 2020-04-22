@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.ArrayList;
 import java.util.List;
 import primitives.*;
 import static primitives.Util.*;
@@ -78,4 +79,55 @@ public class Polygon implements Geometry {
     public Vector getNormal(Point3D point) {
         return _plane.getNormal(point);
     }
+
+    /**
+     * @param vi keeps all the vectors from pi-p0
+     * @param si keeps the numbers from crossProduct and dotProduct with v
+     * 
+     */
+	@Override
+	public List<Point3D> findIntersections (Ray ray) {
+		// TODO Auto-generated method stub
+		List<Point3D> intersections = _plane.findIntersections(ray);
+        if (intersections == null) return null;
+
+        Point3D p0 = ray.getP();
+        Vector v = ray.getV();
+        Vector vi[]=new Vector[_vertices.size()];
+        List<Double> si=new ArrayList<Double>();
+        for(int i=0;i<vi.length;i++)
+        {
+        	vi[i]=_vertices.get(i).subtract(p0);
+        }
+        for(int i=0;i<vi.length-1;i++)
+        {
+        	double s= v.dotProduct(vi[i].crossProduct(vi[i+1]));
+        	    if (isZero(s)) return null;
+        	    si.add(s);
+        }
+        double s= v.dotProduct(vi[vi.length-1].crossProduct(vi[0]));
+	    if (isZero(s)) return null;
+	    si.add(s);
+	    
+        if(si.get(0)>0) //cheack if all numbers are +
+        {
+        	for(int i=1; i<si.size(); i++)
+           {
+        	  if(si.get(i)<0)
+        		return null;
+           }
+        	return intersections;
+        }
+        else //if all numbers arr -
+        {
+        	for(int i=1; i<si.size(); i++)
+            {
+         	  if(si.get(i)>0)
+         		return null;
+            }
+         	return intersections;
+        	
+        }
+        
+	}
 }

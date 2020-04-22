@@ -1,5 +1,5 @@
 package primitives;
-
+import static primitives.Util.*;
 
 public class Ray
 {
@@ -8,8 +8,8 @@ public class Ray
 	 *  Defined by Vector and Point3D
 	 */
 	
-	Point3D p;
-	Vector dir;
+	private Point3D p;
+	private Vector dir;
 	/**
 	    * Ray constructor receiving point3D value and Vector
 	    *  check it is normalized"
@@ -21,10 +21,8 @@ public class Ray
 	
 	public Ray(Point3D _p, Vector v)throws IllegalArgumentException 
 	{
-		if(v.length()!=1)
-			throw new IllegalArgumentException ("the vector is not normalized");
 		p=new Point3D(_p);
-		dir=new Vector(v);	
+		dir=new Vector(v).normalized();	
 	}
 	/**
 	    * Ray  constructor receiving Ray value 
@@ -35,7 +33,7 @@ public class Ray
 	public Ray(Ray r)
 	{
 		p=new Point3D(r.p);
-		dir=new Vector(r.dir);	
+		dir=new Vector(r.dir).normalized();	
 	}
 	 /**
      * Point3D value getter
@@ -62,6 +60,15 @@ public class Ray
 	      Ray oth = (Ray)obj;
 	      return p.equals(oth.p) && dir.equals(oth.dir);
 	   }
+	/**
+	 * calculate point on a ray (p=p0+t*v)
+	 * @param length as t value
+	 * @return point3D on the ray
+	 */
+    public Point3D getTargetPoint(double length) 
+    {
+         return isZero(length ) ?p : p.add(dir.scale(length));
+    }
 	@Override
 	public String toString() 
 	{

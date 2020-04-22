@@ -1,6 +1,8 @@
 package geometries;
 
-public abstract class RadialGeometry 
+
+
+public abstract class RadialGeometry implements Geometry
 {
 	double _radius;
 	/** 
@@ -18,5 +20,7 @@ public abstract class RadialGeometry
 	{
 		_radius=r.getR();
 	}
+
+	
 
 }
