@@ -89,6 +89,12 @@ public class Point3D
     {
     	return new Vector(this.get_x().get() - p.get_x().get(), this.get_y().get() - p.get_y().get(), this.get_z().get() - p.get_z().get());
     }
+    
+    public Point3D subtract(Vector v) {
+        return new Point3D(this.x._coord - v.p.x._coord,
+                this.y._coord - v.p.y._coord,
+                this.z._coord - v.p.z._coord);
+    }
     /**
      * add vector to point
      * @param v vector to add to a point

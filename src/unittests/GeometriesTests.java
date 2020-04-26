@@ -31,10 +31,9 @@ public void testFindIntersections()
 // ============ Equivalence Partitions Tests ==============
 
        //TC01: Some geometries have intersection points(3 points)
-       assertEquals("Some geometries have intersection points",2,
+        assertEquals("Some geometries have intersection points",2,
         _geometries.findIntersections(new Ray(new Point3D(-1,2,0), new Vector(1, 0, 0))).size());
-
-     
+      
        // =============== Boundary Values Tests ==================
        
        // TC11: An empty list (0 points)
