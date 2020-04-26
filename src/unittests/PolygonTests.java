@@ -98,8 +98,8 @@ public class PolygonTests {
 		Polygon polygon =new Polygon(new Point3D(1,0,1),new Point3D(1,0,0), new Point3D(3,0,0),new Point3D(3, 0, 1));
 		 // ============ Equivalence Partitions Tests ==============
 		
-		 //TC01 Inside triangle
-		assertEquals("Ray Inside the triangle",List.of(new Point3D(2,0,0.5)),polygon.findIntersections((new Ray(new Point3D(2,-2,0.5), new Vector(0, 1, 0)))));
+		 //TC01 Inside polygon
+		assertEquals("Ray Inside the polygon",List.of(new Point3D(2,0,0.5)),polygon.findIntersections((new Ray(new Point3D(2,-2,0.5), new Vector(0, 1, 0)))));
 		 //TC02 Outside against edge
 		 assertEquals("Ray starts outside against edge",null,polygon.findIntersections((new Ray(new Point3D(2, -2, -1), new Vector(0, 1, 0)))));
 		 //TC03 Outside against vertex
