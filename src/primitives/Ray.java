@@ -19,7 +19,7 @@ public class Ray
 		 * 
 	   */
 	
-	public Ray(Point3D _p, Vector v)throws IllegalArgumentException 
+	public Ray(Point3D _p, Vector v)
 	{
 		p=new Point3D(_p);
 		dir=new Vector(v).normalized();	
