@@ -1,6 +1,9 @@
 package geometries;
 
 
+import primitives.Color;
+import primitives.Material;
+
 import java.util.List;
 import static primitives.Util.*;
 
@@ -8,7 +11,7 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
-public class Plane implements Geometry
+public class Plane extends Geometry
 {
 	Point3D p1;
 	Vector normal;
@@ -20,6 +23,7 @@ public class Plane implements Geometry
 	 */
 	public Plane(Point3D p1,Point3D p2, Point3D p3)
 	{
+		super();
 		this.p1=p1;//relation point of the plane
 		Vector v1=p2.subtract(p1);
 		Vector v2=p3.subtract(p2);
@@ -34,8 +38,37 @@ public class Plane implements Geometry
 	 */	
 	public Plane(Point3D _p,Vector v)
 	{
+		super();
 		p1=new Point3D(_p);
 		normal=new Vector(v);
+	}
+	/**
+	 * ctr that calls Geometry ctr with emission and material valus 
+	 * @param emmission _emission value
+	 * @param material _material value
+	 * @param p1 point p1
+	 * @param p2 vector normal
+	 * @param p3 vector normal
+	 */
+	public Plane(Color emmission, Material material,Point3D p1,Point3D p2, Point3D p3 )
+	{
+		super(emmission, material);
+		this.p1=p1;//relation point of the plane
+		Vector v1=p2.subtract(p1);
+		Vector v2=p3.subtract(p2);
+		normal=(v1.crossProduct(v2)).normalize();
+
+	}
+	/**
+	 * ctr with default material
+	 * @param emmission _emission value
+	 * @param p1 point p1
+	 * @param p2  vector normal
+	 * @param p3 vector normal
+	 */
+	public Plane(Color emmission,Point3D p1,Point3D p2, Point3D p3 )
+	{
+		this(emmission ,new Material(0,0,0),p1,p2,p3);
 	}
 	
     public Point3D getP()//get point p1
@@ -64,7 +97,7 @@ public class Plane implements Geometry
 	 * @param ray
      * @return list of Point3D that intersect the given ray with the plane
 	 */
-	public List<Point3D> findIntersections (Ray ray)
+	public List<GeoPoint> findIntersections (Ray ray)
 	{
 		// TODO Auto-generated method stub
 		  Vector p0Q;
@@ -80,7 +113,7 @@ public class Plane implements Geometry
 
 	        double t = alignZero(normal.dotProduct(p0Q) / nv);
 
-	        return t <= 0 ? null : List.of(ray.getTargetPoint(t));
+	        return t <= 0 ? null : List.of(new GeoPoint(this,ray.getTargetPoint(t)));
 	 }
 
 

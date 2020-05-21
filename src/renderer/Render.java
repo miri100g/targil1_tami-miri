@@ -5,12 +5,16 @@ import java.util.List;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Intersectable;
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
-
+import geometries.Intersectable.GeoPoint;
+import static primitives.Util.*;
 public class Render {
 	
 	private ImageWriter image;
@@ -45,11 +49,11 @@ public class Render {
 	         for (int collumn = 0; collumn < Nx; collumn++)
 	         {
 	                Ray ray = camera.constructRayThroughPixel(Nx, Ny, collumn, row, distance, width, height);
-	                List<Point3D> intersectionPoints = geometries.findIntersections(ray);
+	                List<GeoPoint> intersectionPoints = geometries.findIntersections(ray);
 	                if (intersectionPoints == null) {
 	                    image.writePixel(collumn, row, background);
 	                } else {
-	                    Point3D closestPoint = getClosestPoint(intersectionPoints);
+	                    GeoPoint closestPoint = getClosestPoint(intersectionPoints);
 	                    image.writePixel(collumn, row, calcColor(closestPoint).getColor());
 	                }
 	         }
@@ -84,32 +88,80 @@ public class Render {
 	 * @param p point value
 	 * @return the intensity that defined in ambient lighting
 	 */
-	private Color calcColor(Point3D p)
+	private Color calcColor(GeoPoint intersection)
 	{
-		return scene.getAmbientLight().getIntensity();
+		Color result = scene.getAmbientLight().getIntesity();
+        result = result.add(intersection.getGeometry().getEmmission());
+        List<LightSource> lights = scene.getLights();
+
+        Vector v = intersection.getPoint().subtract(scene.getCamera().getP0()).normalize();
+        Vector n = intersection.getGeometry().getNormal(intersection.getPoint());
+
+        Material material = intersection.getGeometry().getMaterial();
+        int nShininess = material.getShininess();
+        double kd = material.getKd();
+        double ks = material.getKs();
+        if (scene.getLights() != null) {
+            for (LightSource lightSource : lights) {
+
+                Vector l = lightSource.getL(intersection.getPoint());
+                double nl = alignZero(n.dotProduct(l));
+                double nv = alignZero(n.dotProduct(v));
+
+                if (sign(nl) == sign(nv)) {
+                    Color ip = lightSource.getIntensity(intersection.getPoint());
+                    result = result.add(
+                            calcDiffusive(kd, nl, ip),
+                            calcSpecular(ks, l, n, nl, v, nShininess, ip)
+                    );
+                }
+            }
+        }
+
+        return result;
+    }
+	
+	private Object sign(double dotProduct) {
+		return (dotProduct > 0d);
 	}
+	private Color calcDiffusive(double kd, double nl,Color ip) {
+		if (nl < 0) nl = -nl;
+        return ip.scale(nl * kd);
+	}
+	
+	private Color calcSpecular(double ks,Vector l,Vector n, double nl, Vector v, int nShininess, Color lightIntensity) {
+		
+		double p = nShininess;
+        Vector R = l.add(n.scale(-2 * nl)); // nl must not be zero!
+        double minusVR = -alignZero(R.dotProduct(v));
+        if (minusVR <= 0) {
+            return Color.BLACK; // view from direction opposite to r vector
+        }
+        return lightIntensity.scale(ks * Math.pow(minusVR, p));
+	}
+	
+	
 	/**
 	 * @param points list of all the points
 	 * @return the closest cutting point with p0
 	 */
-	private Point3D getClosestPoint(List<Point3D> points)
+	private GeoPoint getClosestPoint(List<GeoPoint> points)
 	{
 		Point3D p0= scene.getCamera().getP0();//p0 point
 		double dis;
 		double min=Double.MAX_VALUE;// the minimal distance
-		Point3D p=null;
-		for(Point3D point : points)//for every point in the list we check if the distance from p0 is less then min
+		GeoPoint p=null;
+		for(GeoPoint geopoint : points)//for every point in the list we check if the distance from p0 is less then min
 		{
-			dis=p0.distance(point);
+			dis=p0.distance(geopoint.getPoint());
 			if(dis<min)
 			{
 				min=dis;
-				p=point;
+				p=geopoint;
 			}
 		}
 		return p;
 	}
 	
-
 
 }

@@ -1,5 +1,7 @@
 package geometries;
 
+import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import static primitives.Util.*;
 import java.util.List;
@@ -10,10 +12,35 @@ import primitives.Vector;
 public class Tube extends RadialGeometry
 {
     Ray axisRay;
-	
-	public Tube(double r,Ray ray) //ctr
+	/**
+	 * ctr with default _emmission value
+	 * @param r _radius value
+	 * @param ray axisRay value
+	 */
+	public Tube(double r,Ray ray) 
 	{
-		super(r);
+		this(Color.BLACK,new Material(0, 0, 0),r,ray);
+	}
+	/**
+	 * ctr
+	 * @param emmission _emmission value
+	 * @param r _radius value
+	 * @param ray axisRay value
+	 */
+	public Tube(Color emmission,double r,Ray ray) 
+	{
+		this(emmission,new Material(0, 0, 0),r,ray);
+	}
+	/**
+	 * calling RadialGeometry ctr
+	 * @param emmission _emmission value
+	 * @param material  _material
+	 * @param r _radius value
+	 * @param ray axisRay value
+	 */
+	public Tube(Color emmission,Material material,double r,Ray ray) 
+	{
+		super(emmission,material,r);
 		// TODO Auto-generated constructor stub
 		axisRay=new Ray(ray);
 	}
@@ -39,7 +66,7 @@ public class Tube extends RadialGeometry
 	}
 	
 	
-	public List<Point3D> findIntersections (Ray ray) {
+	public List<GeoPoint> findIntersections (Ray ray) {
 		// TODO Auto-generated method stub
 	
 		    return null;

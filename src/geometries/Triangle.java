@@ -1,7 +1,10 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -11,9 +14,38 @@ import static primitives.Util.*;
 public class Triangle extends Polygon
 {
 	Point3D x,y,z;
-	public Triangle(Point3D a,Point3D b,Point3D c)//ctr
+	/**
+	 * ctr that calls Polygon ctr
+	 * @param a x value
+	 * @param b y value
+	 * @param c z value
+	 */
+	public Triangle(Point3D a,Point3D b,Point3D c)
 	{
 		super(a,b,c);
+	}
+	/**
+	 * ctr that calls Polygon ctr with emission value
+	 * @param emmission _emission value
+	 * @param a x value
+	 * @param b y value
+	 * @param c z value
+	 */
+	public Triangle(Color emmission,Point3D a,Point3D b,Point3D c)
+	{
+		super(emmission,a,b,c);
+	}
+	/**
+	 * ctr that calls Polygon ctr with emission and material values 
+	 * @param emmission _emission value
+	 * @param material _material value
+	 * @param a x value
+	 * @param b y value
+	 * @param c z valu
+	 */
+	public Triangle(Color emmission,Material material,Point3D a,Point3D b,Point3D c)
+	{
+		super(emmission,material,a,b,c);
 	}
 	//get point x
 	 public Point3D get_x(){
@@ -39,10 +71,10 @@ public class Triangle extends Polygon
 	    * @param ray
         * @return list of Point3D that intersect the given ray with the triangle
 	     */
-		public List<Point3D> findIntersections (Ray ray)
+		public List<GeoPoint> findIntersections (Ray ray)
 	    {
 			// TODO Auto-generated method stub
-	    	List<Point3D> intersections = _plane.findIntersections(ray);
+	    	List<GeoPoint> intersections = _plane.findIntersections(ray);
 	        if (intersections == null) return null;
 
 	        Point3D p0 = ray.getP();
@@ -59,7 +91,19 @@ public class Triangle extends Polygon
 	        double s3 = v.dotProduct(v3.crossProduct(v1));
 	        if (isZero(s3)) return null;
 
-	        return ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0)) ? intersections : null;
+	        if ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0)) 
+	        {
+	        	 //for GeoPoint
+	            List<GeoPoint> result = new LinkedList<>();
+	            for (GeoPoint geo : intersections) {
+	                result.add(new GeoPoint(this, geo.getPoint()));
+	            }
+	            return result;
+	        }
+	        else
+	        	return null;
+	     
+	       
 
 	    }
 		

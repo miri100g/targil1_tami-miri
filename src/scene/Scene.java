@@ -8,6 +8,10 @@ import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
 
+import java.util.LinkedList;
+import java.util.List;
+import elements.*;
+
 public class Scene 
 {
 	private String _name;
@@ -16,6 +20,7 @@ public class Scene
 	private Geometries _geometries;
 	private Camera _camera;
 	private double _distance;
+	private List<LightSource>_lights;
 	
 	/**
 	 * ctr that create an empty collection of elements in 3D model. 
@@ -25,6 +30,12 @@ public class Scene
 	{
 		_name=name;
 		_geometries=new Geometries();
+	}
+	/** 
+	 * @return list of lights source
+	 */
+	public List<LightSource> getLights(){
+		return _lights;
 	}
 	/** 
 	 * @return scene name
@@ -105,6 +116,21 @@ public class Scene
 		{
 			_geometries.add(geo);
 		}
+	}
+	/**
+	 * func that add light sorces to the list 
+	 * @param lights list of light sources to add 
+ 	 */
+	public void addLights(LightSource... lights) 
+	{
+		if(_lights==null)
+			_lights=new LinkedList<LightSource>();
+		
+		for(LightSource light :lights)
+		{
+			_lights.add(light);
+		}
+		
 	}
 	
 

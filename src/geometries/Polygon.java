@@ -1,11 +1,13 @@
 package geometries;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
 import primitives.*;
 import static primitives.Util.*;
 
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -35,8 +37,9 @@ public class Polygon implements Geometry {
      *                                  consequent edges)
      *                                  <li>The polygon is concave (not convex</li>
      *                                  </ul>
-     */
-    public Polygon(Point3D... vertices) {
+     */ 
+     public Polygon(Color emmission,Material material,Point3D... vertices) {
+    	super(emmission,material);
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
@@ -74,6 +77,24 @@ public class Polygon implements Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
+/**
+ * ctr with default emission value
+ * @param vertices list of _vertices values
+ */
+    public Polygon(Point3D... vertices) {
+        this( Color.BLACK, new Material(0,0,0), vertices);
+    }
+    
+  /**
+   * ctr  
+   * @param emmission _emission value
+   * @param vertices  list of _vertices values
+   */
+    public Polygon(Color emmission,Point3D... vertices) {
+    	this(emmission,new Material(0,0,0), vertices);
+    }
+    
+   
 
     @Override
     public Vector getNormal(Point3D point) {
@@ -86,9 +107,9 @@ public class Polygon implements Geometry {
      * 
      */
 	@Override
-	public List<Point3D> findIntersections (Ray ray) {
+	public List<GeoPoint> findIntersections (Ray ray) {
 		// TODO Auto-generated method stub
-		List<Point3D> intersections = _plane.findIntersections(ray);
+		List<GeoPoint> intersections = _plane.findIntersections(ray);
         if (intersections == null) return null;
 
         Point3D p0 = ray.getP();
@@ -109,6 +130,7 @@ public class Polygon implements Geometry {
 	    if (isZero(s)) return null;
 	    si.add(s);
 	    
+	    List<GeoPoint> result = new LinkedList<>();
         if(si.get(0)>0) //cheack if all numbers are +
         {
         	for(int i=1; i<si.size(); i++)
@@ -116,7 +138,11 @@ public class Polygon implements Geometry {
         	  if(si.get(i)<0)
         		return null;
            }
-        	return intersections;
+	            for (GeoPoint geo : intersections) {
+	                result.add(new GeoPoint(this, geo.getPoint()));
+	            }
+	            return result;
+	       
         }
         else //if all numbers arr -
         {
@@ -125,7 +151,10 @@ public class Polygon implements Geometry {
          	  if(si.get(i)>0)
          		return null;
             }
-         	return intersections;
+        	for (GeoPoint geo : intersections) {
+                result.add(new GeoPoint(this, geo.getPoint()));
+            }
+            return result;
         	
         }
         
