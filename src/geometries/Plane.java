@@ -59,6 +59,14 @@ public class Plane extends Geometry
 		normal=(v1.crossProduct(v2)).normalize();
 
 	}
+	
+	public Plane(Color emmission, Material material,Point3D p1,Vector v )
+	{
+		super(emmission, material);
+		this.p1=p1;//relation point of the plane
+		normal=v;
+
+	}
 	/**
 	 * ctr with default material
 	 * @param emmission _emission value

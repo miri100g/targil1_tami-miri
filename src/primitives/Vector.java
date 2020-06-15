@@ -1,5 +1,5 @@
 package primitives;
-
+import static java.lang.System.out;
 public class Vector 
 {
 	/**
@@ -99,7 +99,12 @@ public class Vector
 	 */	
 	public Vector scale(double tmp)
 	{
-		return new Vector(p.x.get()*tmp,p.y.get()*tmp,p.z.get()*tmp);
+		try {
+			 return new Vector(p.x.get()*tmp,p.y.get()*tmp,p.z.get()*tmp);
+		} catch (Exception e) {
+			return new Vector(p.x.get(),p.y.get(),p.z.get());
+		}
+		
 	}
 	/**
 	 * dot-product

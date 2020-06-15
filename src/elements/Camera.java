@@ -5,6 +5,9 @@ import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 public class Camera 
 {
 	//Location of viewpoint
@@ -98,6 +101,11 @@ public class Camera
 
         return new Ray(p0,Vij);
 	}
+	
+	
+	
+	
 
 }
+     
 

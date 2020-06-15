@@ -10,6 +10,7 @@ public class PointLight extends Light implements LightSource {
 	double _kC;// Constant attenuation
     double _kL; // Linear attenuation
     double _kQ; // Quadratic attenuation
+    double _r;
 /**
  * ctr that calls Light ctr with color value
  * @param color _intensity value
@@ -25,8 +26,16 @@ public class PointLight extends Light implements LightSource {
 		_kL=kl;
 		_kQ=kq;
 		
-		// TODO Auto-generated constructor stub
 	}
+	
+	public PointLight(Color color,Point3D p,double kc,double kl,double kq,double r) {
+		
+		this(color,p,kc,kl,kq);
+		_r=r;
+		
+	}
+	
+	
 
 	@Override
 	public Color getIntensity(Point3D p) {
@@ -42,6 +51,17 @@ public class PointLight extends Light implements LightSource {
             return null;
         }
         return p.subtract(_position).normalize();
+	}
+
+	@Override
+	public double getDistance(Point3D point) {
+		return point.distance(_position);
+
+	}
+
+	@Override
+	public double getRadius() {
+		return _r;
 	}
 
 }

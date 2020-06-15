@@ -8,7 +8,7 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.*;
-
+import static java.lang.System.out;
 public class Sphere extends RadialGeometry
 {
     Point3D _center;
@@ -71,6 +71,7 @@ public class Sphere extends RadialGeometry
 			// TODO Auto-generated method stub
 			  Point3D p0 = ray.getP();
 		        Vector v = ray.getV();
+		        
 		        Vector u;
 		        try {
 		            u = _center.subtract(p0);   // p0 == _center

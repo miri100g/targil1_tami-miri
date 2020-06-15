@@ -21,6 +21,13 @@ public class SpotLight extends PointLight {
 		_direction=new Vector(v).normalize();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public SpotLight(Color color,Vector v,Point3D _position,double _kC, double _kL, double _kQ,double r) {
+		super(color, _position, _kC, _kL, _kQ,r);
+		_direction=new Vector(v).normalize();
+		// TODO Auto-generated constructor stub
+	}
+	
 	/**
      * @return spotlight intensity
      */
@@ -35,6 +42,8 @@ public class SpotLight extends PointLight {
         Color pointlightIntensity = super.getIntensity(p);
         return (pointlightIntensity.scale(factor));
     }
+    
+    
     
 
 }

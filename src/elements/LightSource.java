@@ -17,6 +17,10 @@ public interface LightSource {
 	 * @return the vector between a given point to the light source 
 	 */
 	public Vector getL(Point3D p);
+	
+	double getDistance(Point3D point);
+	
+	double getRadius();
 
 
 }
