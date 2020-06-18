@@ -36,16 +36,21 @@ public class DirectionalLight extends Light implements LightSource{
     public Vector getL(Point3D p) {
         return _direction;
     }
-
+    /**
+     * @return the distance between a point and the light
+     * direction light is like the sun, in the infinity
+     */
 	@Override
 	public double getDistance(Point3D point) {
 		return Double.POSITIVE_INFINITY;
 	}
-
+	
+   /**
+   * @return 0, direction light doesnt have radius
+   */
 	@Override
 	public double getRadius() {
-		// TODO Auto-generated method stub
-		return 1;
+		return 0;
 	}
     
     

@@ -36,6 +36,9 @@ public class Render {
 	 */
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	
+	/**
+	 * number of rayes to the beam from point(soft shadow)
+	 */
 	private static final int NUM_OF_RAYES=80;
 
 	/**
@@ -328,11 +331,14 @@ public class Render {
 	 * @param n normal to raise the point in £ to fix the floating point problem
 	 * @param geopoint point value on the geometry which the vector cuts
 	 * @return value of transparency partial shading in case the object/s that block the light source from the point have transparency at some level or another. 
+	 * implementaion of soft shadow: creat a beam of ray from every dark point. calculat the ktr of every ray and return the average of the ktr from all rayes in the beam.
+	 * the larger the number of the rayes in beam, the more blurry the shadow's edge.
+	 * 
 	 */
 	
 	private double transparency(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
         double sum_ktr = 0;
-        List<Ray> rays = constructRaysToLight(light, l, n, geopoint);
+        List<Ray> rays = constructRayBeamThroughPoint(light, l, n, geopoint);
         for (Ray ray : rays) {
             List<GeoPoint> intersections = scene.getGeometries().findIntersections(ray);
             if (intersections != null) {
@@ -353,20 +359,28 @@ public class Render {
         }
         return sum_ktr/rays.size();
     }
+	
+	/**
+	 * 
+	 * @param light the light source 
+	 * @param l vector between  light source and a given point
+	 * @param n normal to raise the point in £ to fix the floating point problem
+	 * @param geopoint point value on the geometry which the vector cuts
+	 * @return beam of rayes from point ,in transparency find the intersection points with all of the rayes in the beam and return the ktr for every ray.
+	 * in the end transparency returns the average of ktr from all the rayes
+	 */
 
-    private List<Ray> constructRaysToLight(LightSource light, Vector l, Vector n, GeoPoint geopoint){
+    private List<Ray> constructRayBeamThroughPoint(LightSource light, Vector l, Vector n, GeoPoint geopoint){
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geopoint.point, lightDirection, n);
         List<Ray> beam = new ArrayList<>();
         beam.add(lightRay);
         double r = light.getRadius();
-        
-        
-        	 Point3D p0 = lightRay.getP();
+        if(r==0)return beam;//in case the light is direction light so it doesn't have radius
+        Point3D p0 = lightRay.getP();
         Vector v = lightRay.getV();
-        try {
-			Vector vx = (new Vector(-v.get().get_y().get(), v.get().get_x().get(),0)).normalized(); 
-			Vector vy = (v.crossProduct(vx)).normalized();
+		Vector vx = (new Vector(-v.get().get_y().get(), v.get().get_x().get(),0)).normalized(); 
+		Vector vy = (v.crossProduct(vx)).normalized();
 		
         Point3D pC = lightRay.getTargetPoint(light.getDistance(p0));
         for (int i=0; i<NUM_OF_RAYES-1; i++)//number of rayes less the direct ray to the light(lightRay)
@@ -384,50 +398,11 @@ public class Render {
             if (!isZero(x)) point = point.add(vx.scale(x));
             if (!isZero(y)) point = point.add(vy.scale(y));
             beam.add(new Ray(p0, point.subtract(p0))); // normalized inside Ray ctor
-        
         }
-       } //end try
-        catch (Exception e) 
-        {
-			return beam;
-	    }
-        
         return beam;
     } 
 	 
-	 public List<Ray> constructRayBeamThroughPoint(Point3D p0,int amount, LightSource light,double r,Ray lightRay)
-		{
-		 Random rnd=new Random(); 
-		 List<Ray> rays = new LinkedList<>();
-		 for (int counter = 0; counter < amount; counter++) 
-		 {
-	            Point3D point = p0.add(lightRay.getV());
-	            double cosTheta = 2 * rnd.nextDouble() - 1;
-	            double sinTheta = Math.sqrt(1d - cosTheta * cosTheta);
-
-	            double d = r * (2 * rnd.nextDouble() - 1);
-	            double x = d * cosTheta;
-	            double y = d * sinTheta;
-                Vector v=light.getL(p0);
-	            Vector vx=(new Vector(-v.get().get_y().get(),v.get().get_x().get(),0).normalized());
-	            Vector vy=v.crossProduct(vx).normalized();
-	            if (!isZero(x)) {
-	            	
-	                point = point.add(vx.scale(x));
-	            }
-	            if (!isZero(y)) {
-	                point = point.add(vy.scale(y));
-	            }
-	           rays.add(new Ray(p0, point.subtract(p0).normalized()));
-	           
-	            
-	     }
-	        return rays;
-			
-		       
-		}
-
-	  
+	
 		
 	 
 

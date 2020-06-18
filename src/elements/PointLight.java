@@ -18,6 +18,7 @@ public class PointLight extends Light implements LightSource {
  * @param kc _kC value 
  * @param kl _kL value
  * @param kq _kQ value
+ *
  */
 	public PointLight(Color color,Point3D p,double kc,double kl,double kq) {
 		super(color);
@@ -28,6 +29,15 @@ public class PointLight extends Light implements LightSource {
 		
 	}
 	
+	/**
+	 * ctr that calls Light ctr with color value
+	 * @param color _intensity value
+	 * @param p _position value
+	 * @param kc _kC value 
+	 * @param kl _kL value
+	 * @param kq _kQ value
+	 * @param r light source radius
+	 */
 	public PointLight(Color color,Point3D p,double kc,double kl,double kq,double r) {
 		
 		this(color,p,kc,kl,kq);
