@@ -73,7 +73,8 @@ public class Triangle extends Polygon
 	     */
 		public List<GeoPoint> findIntersections (Ray ray)
 	    {
-			// TODO Auto-generated method stub
+			if(!IsIntersectionBox(ray))
+				return null;
 	    	List<GeoPoint> intersections = _plane.findIntersections(ray);
 	        if (intersections == null) return null;
 

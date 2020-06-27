@@ -102,6 +102,58 @@ public class Camera
         return new Ray(p0,Vij);
 	}
 	
+	 public List<Ray> constructRayBeamThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight, double density, int amount) 
+	 {
+		 Random rnd=new Random();
+if (isZero(screenDistance)) {
+throw new IllegalArgumentException("distance cannot be 0");
+}
+
+List<Ray> rays = new LinkedList<>();
+
+Point3D Pc = p0.add(vto.scale(screenDistance));
+
+double Ry = screenHeight / nY;
+double Rx = screenWidth / nX;
+
+double yi = ((i - nY / 2d) * Ry + Ry / 2d);
+double xj = ((j - nX / 2d) * Rx + Rx / 2d);
+
+Point3D Pij = Pc;
+
+if (!isZero(xj)) {
+Pij = Pij.add(vright.scale(xj));
+}
+if (!isZero(yi)) {
+Pij = Pij.subtract(vup.scale(yi)); // Pij.add(_vUp.scale(-yi))
+}
+
+//antialiasing density >= 1
+double radius = (Rx + Ry) / 2d * density;
+
+
+for (int counter = 0; counter < amount; counter++) {
+Point3D point = new Point3D(Pij);
+double cosTheta = 2 * rnd.nextDouble() - 1;
+double sinTheta = Math.sqrt(1d - cosTheta * cosTheta);
+
+double d = radius * (2 * rnd.nextDouble() - 1);
+double x = d * cosTheta;
+double y = d * sinTheta;
+
+if (!isZero(x)) {
+point = point.add(vright.scale(x));
+}
+if (!isZero(y)) {
+point = point.add(vup.scale(y));
+}
+rays.add(new Ray(p0, point.subtract(p0)));
+}
+return rays;
+}
+	
+	
+	
 	
 	
 	

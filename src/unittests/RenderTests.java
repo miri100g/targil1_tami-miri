@@ -67,4 +67,6 @@ public class RenderTests {
         render.printGrid(50, java.awt.Color.WHITE);
         render.writeToImage();
     }
+    
+    
 }

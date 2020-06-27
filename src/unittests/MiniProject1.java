@@ -24,6 +24,7 @@ public class MiniProject1 {
 
 	@Test
 	public void MiniProject1test() {
+		
 		Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
         scene.setDistance(1000);
@@ -31,7 +32,7 @@ public class MiniProject1 {
         scene.setAmbientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
       
         
-     scene.addGeometries(
+        scene.addGeometries(
                 new Sphere(new Color(255,0,0), new Material(0.001, 1.5, 100, 0.5, 0.7), 40, new Point3D(0, -20, 0)),
                 new Plane(new Color(java.awt.Color.BLACK), new Material(0.5, 0.5, 0), new Point3D(0, 20, 0), new Point3D(4, 20, 0),new Point3D(4,20, 2)));
       
@@ -41,15 +42,18 @@ public class MiniProject1 {
           
           scene.addLights(new SpotLight(new Color(700, 400, 400), //
   				new Vector(0, 0, -1), new Point3D(0,-150,500), 1, 4E-5, 2E-7,10));
-         /* scene.addLights(new SpotLight(new Color(700, 400, 400), //
-    				new Vector(0, 0, -1), new Point3D(0,0,0), 1, 4E-5, 2E-7,10));*/
+        
            
         
         ImageWriter imageWriter = new ImageWriter("miniP1", 200, 200, 500, 500);
-        Render render = new Render(imageWriter, scene);
+        Render render = new Render(imageWriter, scene).setMultithreading(3).setDebugPrint();
 
         render.renderImage();
         render.writeToImage();
+	
+		
 	}
+	
+	
 
 }

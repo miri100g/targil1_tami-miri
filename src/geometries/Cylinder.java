@@ -40,7 +40,6 @@ public class Cylinder extends Tube
 	 */
 	public Cylinder(Color emmission, Material material,double r, Ray ray,double height) {
 		super(emmission,material,r, ray);
-		// TODO Auto-generated constructor stub
 		_height=height;
 	}
 	public Vector getNormal(Point3D _point) 
@@ -63,7 +62,7 @@ public class Cylinder extends Tube
 	    
 	@Override
 	public List<GeoPoint> findIntersections(Ray ray) {
-		// TODO Auto-generated method stub
+		
 		return super.findIntersections(ray);
 	}
 	
